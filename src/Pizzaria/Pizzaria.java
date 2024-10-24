@@ -1,4 +1,4 @@
-package pizzaria;
+package Pizzaria;
 
 import cardapio.Cardapio;
 import pedido.Pedido;
