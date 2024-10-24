@@ -1,5 +1,4 @@
-
-# Pizzaria Online - Sistema de Pedidos e Acesso de Funcionários
+# Pizzaria - Sistema de Pedidos e Acesso de Funcionários
 
 ## Descrição
 Este projeto é um sistema de pedidos para uma pizzaria, desenvolvido em Java. Ele oferece uma interface onde **clientes** podem realizar o login, fazer pedidos de pizzas e acompanhar seu status. Além disso, **funcionários** da pizzaria podem acessar um painel administrativo com funcionalidades específicas, como gerenciamento de pedidos e controle de estoque.
@@ -20,42 +19,16 @@ Este projeto é um sistema de pedidos para uma pizzaria, desenvolvido em Java. E
 
 ## Tecnologias Utilizadas
 - **Linguagem**: Java
-- **Interface de Usuário**: Java Swing (ou outra ferramenta de interface, se utilizada)
-
-## Estrutura do Projeto
-```bash
-/pizzaria-online
-│
-├── /src
-│   ├── /cliente
-│   │   ├── Cliente.java
-│   │   ├── Pedido.java
-│   │   └── Carrinho.java
-│   ├── /funcionario
-│   │   ├── Funcionario.java
-│   │   ├── GerenciamentoPedido.java
-│   │   └── ControleEstoque.java
-│   ├── Main.java
-│   └── DatabaseConnection.java
-├── /resources
-│   └── database.sql
-└── README.md
-```
 
 ## Como Executar o Projeto
 
 1. **Clone o repositório**:
    ```bash
-   git clone https://github.com/seu-usuario/pizzaria-online.git
-   cd pizzaria-online
+   git clone https://github.com/seu-usuario/pizzaria.git
+   cd pizzaria
    ```
 
-2. **Configure o banco de dados**:
-   - Certifique-se de que você tem um banco de dados MySQL rodando.
-   - Execute o script SQL localizado em `resources/database.sql` para criar as tabelas necessárias.
-   - Atualize a classe `DatabaseConnection.java` com as credenciais corretas para acessar seu banco de dados.
-
-3. **Compile e execute o projeto**:
+2. **Compile e execute o projeto**:
    - Usando a linha de comando ou um ambiente de desenvolvimento integrado (IDE) como IntelliJ IDEA ou Eclipse, compile e execute o arquivo `Main.java`.
 
    Para compilar:
@@ -70,6 +43,3 @@ Este projeto é um sistema de pedidos para uma pizzaria, desenvolvido em Java. E
 
 ## Contribuição
 Contribuições são bem-vindas! Sinta-se à vontade para abrir uma **issue** ou enviar um **pull request** com melhorias.
-
-
-Esse README fornece uma visão geral do projeto e pode ser ajustado conforme a evolução das suas funcionalidades e tecnologias.
