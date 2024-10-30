@@ -16,6 +16,7 @@ public class Alimentos {
     }
 
     // Getters e Setters = Métodos para acessar e modificar os atributos.
+
     public String getNome() {
         return nome;
     }
