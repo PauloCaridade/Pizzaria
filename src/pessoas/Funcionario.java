@@ -14,6 +14,7 @@ public class Funcionario extends Pessoa implements AutenticarLogin {
         super(nome, idade, genero, endereco, telefone, email);
         this.setIdFuncionario();
         this.setCargo(cargo);
+        this.setSalario(salario);
         this.setLogin(login);
         this.setSenha(senha);
     }
@@ -60,7 +61,7 @@ public class Funcionario extends Pessoa implements AutenticarLogin {
     }
 
     public void dadosFuncionario() {
-        System.out.println("NOME: " + this.getNome() + "\n" +"CARGO:" + this.getCargo() + "\n" + "SALÁRIO: " + this.getSalario());
+        System.out.println("\nNome: " + this.getNome() + "\n" +"Cargo: " + this.getCargo() + "\n" + "Salário: R$" + this.getSalario());
     }
 
     @Override

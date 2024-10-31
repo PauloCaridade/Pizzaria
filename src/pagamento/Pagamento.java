@@ -1,5 +1,4 @@
 package pagamento;
-import pessoas.*;
 
 public abstract class Pagamento {
 

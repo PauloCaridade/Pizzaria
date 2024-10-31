@@ -68,9 +68,8 @@ public abstract class Pessoa {
 
     @Override
     public String toString() {
-        return "NOME: " + this.nome + "\n" + "IDADE: " + this.idade + "\n" + "GÊNERO: "
-                + this.genero + "ENDEREÇO: " + this.endereco + "\n" + "TELEFONE: " + this.telefone +
-                "\n" + "E-MAIL: " + this.email + "\n";
+        return "Nome: " + this.nome + "\n" + "Idade: " + this.idade + "\n" + "Gênero: " + this.genero + "\n" +
+                "Endereço: " + this.endereco + "\n" + "Telefone: " + this.telefone + "\n" + "E-mail: " + this.email + "\n";
     }
 
 }
