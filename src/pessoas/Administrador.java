@@ -14,31 +14,51 @@ public class Administrador extends Funcionario  implements Administar{
 
 
     @Override
-    public void adicionarFuncionario(Funcionario f, ArrayList<Funcionario> funcionarios) {
+    public void adicionarFuncionario(Pessoa p, ArrayList<Pessoa> pessoas) {
 
-       funcionarios.add(f);
+       pessoas.add(p);
 
-       System.out.println("Funcionario " + f.getNome() + " adicionado com sucesso!");
+       System.out.println("Funcionario " + p.getNome() + " adicionado com sucesso!");
     }
 
     @Override
-    public void excluirFuncionario(Funcionario f, ArrayList<Funcionario> funcionarios) {
-       for(int i = 0; i < funcionarios.size(); i++){
-           Funcionario fun = funcionarios.get(i);
-           if(fun.getIdFuncionario() == f.getIdFuncionario()){
-               funcionarios.remove(i);
-               System.out.println("Funcionario " + f.getNome() + " excluido com sucesso!");
-               break;
+    public void excluirFuncionario(Pessoa p, ArrayList<Pessoa> pessoas) {
+       Pessoa funcionarioSelecionado = null;
+       // verifica se a pessoa fornecida é um funcionário
+       if(p instanceof Funcionario f && !(p instanceof Administrador) && !(p instanceof Cliente)) {
+
+           for(Pessoa pessoa : pessoas) {
+               // verifica na lista de pessoas se existem algum funcionário com o mesmo ID
+               if(pessoa instanceof Funcionario fa && !(pessoa instanceof Administrador) && !(pessoa instanceof Cliente)){
+                   // verifica se os ID's são iguais
+                   if(fa.getIdFuncionario() == f.getIdFuncionario()) {
+                       funcionarioSelecionado = pessoa;
+                   }
+               }
            }
+       }
+       if(funcionarioSelecionado == null) {
+           System.out.println("\nFuncionário não encontrado.");
+       }
+       else{
+           pessoas.remove(funcionarioSelecionado);
+           System.out.println("\nFuncionário removido com sucesso.");
        }
     }
 
+
     @Override
-    public void listarFuncionarios(ArrayList<Funcionario> funcionarios) {
-       System.out.println("Lista de funcionários");
-        for(Funcionario funcionario : funcionarios) {
-            System.out.println(funcionario);
-            System.out.println();
+    public void listarFuncionarios(ArrayList<Pessoa> pessoas) {
+       int cont = 0;
+        for(Pessoa p: pessoas) {
+            if(!(p instanceof Administrador) && !(p instanceof Cliente) && p != null){
+                Funcionario f = (Funcionario) p;
+                System.out.println(f);
+                cont++;
+            }
+        }
+        if(cont == 0) {
+            System.out.println("\nNão há funcionários cadastrados.");
         }
     }
 
