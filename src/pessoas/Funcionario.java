@@ -60,8 +60,13 @@ public class Funcionario extends Pessoa implements AutenticarLogin {
         this.senha = senha;
     }
 
-    public void dadosFuncionario() {
-        System.out.println("\nNome: " + this.getNome() + "\n" +"Cargo: " + this.getCargo() + "\n" + "Salário: R$" + this.getSalario());
+
+    @Override
+    public String toString() {
+        return "\nNome: " + super.getNome() + "\n" + "Idade: " + super.getIdade() + "\n" + "Gênero: " + super.getGenero() + "\n" +
+                "Endereço: " + super.getEndereco() + "\n" + "Telefone: " + super.getTelefone() + "\n" + "E-mail: "
+                + super.getEmail() + "\n" + "Cargo: " + this.getCargo() + "\n" + "Salário: R$" + this.getSalario() +
+                "\n" + "ID: " + this.getIdFuncionario();
     }
 
     @Override

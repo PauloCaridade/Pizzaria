@@ -1,129 +1,224 @@
 package Pizzaria;
-import pagamento.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 import pessoas.*;
 
-import java.util.ArrayList;
 
 public class Pizzaria {
 
     public static void main(String[] args) {
 
         ArrayList<Pessoa> pessoas = new ArrayList<Pessoa>();
-        ArrayList<Funcionario> funcionarios = new ArrayList<>();
-
-        Pessoa c1 = new Cliente("João",25,"Masculino","Curitiba","(41)999999999",
-                "joão@gmail.com","jãojão","12345");
 
 
-        Pessoa f1 = new Funcionario("Mateus",50,"Masculino","Curitiba","(41)888888888",
-                "mateus@outlook.com","atendente",1800,"teuteu","54321");
+        pessoas.add(new Cliente("João Vitor",22,"Masculino","Curitiba",
+                "998655302","joão@gmail.com","joãov","joão123"));
 
-        Pessoa f2 = new Funcionario("Lucas",21,"Masculino","Curitiba","(41)5555555",
-                "lucas123@outlook.com","Pizzaiolo",2500,"luquinha","999");
+        pessoas.add(new Funcionario("Leonardo",25,"Masculino","Curitiba",
+        "114255807","leo@outlook.com","Pizzaiolo",2500,"leleco","leo123"));
 
-        Pessoa a1 = new Administrador("Ana",35,"Feminino","Curitiba",
-                "(41)777777777","ana@gmail.com","aninha","nana555");
-
-        Funcionario f3 = new Funcionario("Gabriela",22,"Feminino","Curitiba","(41)444444444",
-                "gab@hotmail.com","secretária",2500,"gabzinha","202020");
-
-        Funcionario f4 = new Funcionario("Leonardo",42,"Masculino","Curitiba","(41)111111111",
-                "leozin@outlook.com","Pizzaiolo",3500,"leleco","777");
-
-        autenticarLogin(c1);
-        autenticarLogin(f1);
-        pessoas.add(c1);
-        pessoas.add(f1);
-        pessoas.add(f2);
-        pessoas.add(a1);
-        funcionarios.add(f3);
-
-        System.out.println("\nPessoas: ");
-        dadosPessoas(pessoas);
-        System.out.println("\nFuncionários: ");
-        dadosFuncionarios(pessoas);
-        System.out.println("\nFunções ADM: ");
-        adicionarFuncionario(a1,funcionarios,f4);
-        listarFuncionarios(a1,funcionarios);
-        excluirFuncionario(a1,funcionarios,f4);
+        pessoas.add(new Administrador("Pedro",35,"Masculino","Curitiba",
+            "556382970","pedro@gmail.com","pedro","123"));
 
 
-        CartaoCredito credito = new CartaoCredito(150.0, "João Silva", "1234567812345678", "12/25", "123", 2000.0);
-        System.out.println("Status inicial (Cartão de Crédito): " + credito.statusPagamento());
-        credito.pagar();
-        System.out.println("Status após pagamento (Cartão de Crédito): " + credito.statusPagamento());
-        credito.cancelarPagamento();
-        System.out.println("Status após cancelamento (Cartão de Crédito): " + credito.statusPagamento());
+        Scanner input = new Scanner(System.in);
+        Pessoa usuarioLogado = null;
 
 
-        CartaoDebito debito = new CartaoDebito(100.0, "Maria Souza", "8765432187654321", "11/24", "456");
-        System.out.println("\nStatus inicial (Cartão de Débito): " + debito.statusPagamento());
-        debito.pagar();
-        System.out.println("Status após pagamento (Cartão de Débito): " + debito.statusPagamento());
-        debito.cancelarPagamento();
-        System.out.println("Status após cancelamento (Cartão de Débito): " + debito.statusPagamento());
+        System.out.println("╔══════════════════════════════════╗");
+        System.out.println("║      Tela de Login do Sistema    ║");
+        System.out.println("╚══════════════════════════════════╝");
 
+        while(usuarioLogado == null){
+            System.out.print("╔═ Usuário: ");
+            String usuario = input.nextLine();
 
-        Dinheiro dinheiro = new Dinheiro(50.0);
-        System.out.println("\nStatus inicial (Dinheiro): " + dinheiro.statusPagamento());
-        dinheiro.pagar();
-        System.out.println("Status após pagamento (Dinheiro): " + dinheiro.statusPagamento());
-        dinheiro.cancelarPagamento();
-        System.out.println("Status após cancelamento (Dinheiro): " + dinheiro.statusPagamento());
+            System.out.print("╠═ Senha: ");
+            String senha = input.nextLine();
+            System.out.println("╚═════════════════════════════");
 
+            usuarioLogado = autenticarUsuario(pessoas, usuario, senha);
 
-        Pix pix = new Pix(75.0, "12345678900", "Banco do Brasil");
-        System.out.println("\nStatus inicial (Pix): " + pix.statusPagamento());
-        pix.pagar();
-        System.out.println("Status após pagamento (Pix): " + pix.statusPagamento());
-        pix.cancelarPagamento();
-        System.out.println("Status após cancelamento (Pix): " + pix.statusPagamento());
+            if (usuarioLogado == null) {
+                System.out.println("Usuário ou senha incorretos. Tente novamente.");
+            }
 
+            if(usuarioLogado instanceof Administrador a){
 
-    }
+                System.out.printf("Login bem sucedido!\nOlá, %s.",usuarioLogado.getNome());
+                boolean sair = false;
 
+                while (!sair){
+                    System.out.println("\n╔═════════════════════════════╗");
+                    System.out.println("║        Administrador        ║");
+                    System.out.println("╠═════════════════════════════╣");
+                    System.out.println("║ 1. Adicionar Funcionário    ║");
+                    System.out.println("║ 2. Excluir Funcionário      ║");
+                    System.out.println("║ 3. Listar Funcionários      ║");
+                    System.out.println("║ 4. Sair                     ║");
+                    System.out.println("╚═════════════════════════════╝");
+                    System.out.print("Escolha uma opção: ");
+                    String escolha = input.nextLine();
 
+                    switch (escolha) {
+                        case "1":
+                            System.out.print("Nome: ");
+                            String nomeFuncionario = input.nextLine();
+                            System.out.print("Idade: ");
+                            int idadeFuncionario = input.nextInt();
+                            input.nextLine();
+                            System.out.print("Genero: ");
+                            String generoFuncionario = input.nextLine();
+                            System.out.print("Endereço: ");
+                            String enderecoFuncionario = input.nextLine();
+                            System.out.print("Telefone: ");
+                            String telefoneFuncionario = input.nextLine();
+                            System.out.print("E-mail: ");
+                            String emailFuncionario = input.nextLine();
+                            System.out.print("Cargo: ");
+                            String cargoFuncionario = input.nextLine();
+                            System.out.print("Salário: ");
+                            double salarioFuncionario = input.nextDouble();
+                            input.nextLine();
+                            System.out.print("Login: ");
+                            String loginFuncionario = input.nextLine();
+                            System.out.print("Senha: ");
+                            String senhaFuncionario = input.nextLine();
+                            Funcionario novoFuncionario = new Funcionario(nomeFuncionario,idadeFuncionario,
+                                    generoFuncionario,enderecoFuncionario,telefoneFuncionario,emailFuncionario,
+                                    cargoFuncionario,salarioFuncionario,loginFuncionario,senhaFuncionario);
+                            pessoas.add(novoFuncionario);
+                            break;
+                        case "2":
+                            a.listarFuncionarios(pessoas);
+                            System.out.print("Selecione o funcionário (nome) para exclusão: ");
+                            String funcionarioVerificado = input.nextLine();
+                            Pessoa funcinarioSelecionado = null;
+                            for(Pessoa pessoa : pessoas){
+                                if(pessoa instanceof Funcionario f && !(pessoa instanceof Administrador) && !(pessoa instanceof Cliente)){
+                                    if(funcionarioVerificado.toLowerCase().equals(pessoa.getNome().toLowerCase())){
+                                        funcinarioSelecionado = pessoa;
+                                    }
+                                }
+                            }
+                            a.excluirFuncionario(funcinarioSelecionado,pessoas);
+                            break;
+                        case "3":
+                            a.listarFuncionarios(pessoas);
+                            break;
+                        case "4":
+                            System.out.println("\nSaindo do sistema. Até mais!");
+                            sair = true;
+                            break;
+                        default:
+                            System.out.println("\n⚠️ Opção inválida. Tente novamente.");
+                            break;
+                    }
+                }
 
-    public static void dadosPessoas(ArrayList<Pessoa> pessoas) {
-        for(Pessoa pessoa : pessoas){
-            System.out.println();
-            System.out.println(pessoa);
+            }
+
+            else if (usuarioLogado instanceof Cliente) {
+
+                System.out.printf("Login bem sucedido!\nOlá, %s.",usuarioLogado.getNome());
+                boolean sair = false;
+
+                while (!sair){
+
+                    System.out.println("\n╔═════════════════════════════╗");
+                    System.out.println("║        MENU PRINCIPAL       ║");
+                    System.out.println("╠═════════════════════════════╣");
+                    System.out.println("║ 1. Fazer Pedido             ║");
+                    System.out.println("║ 2. Visualizar Cardápio      ║");
+                    System.out.println("║ 3. Gerenciar Conta          ║");
+                    System.out.println("║ 4. Sair                     ║");
+                    System.out.println("╚═════════════════════════════╝");
+                    System.out.print("Escolha uma opção: ");
+
+                    String escolha = input.nextLine();
+
+                    switch (escolha) {
+                        case "1":
+                            System.out.println("\nVocê escolheu 'Fazer Pedido'.");
+                            break;
+                        case "2":
+                            System.out.println("\nVocê escolheu 'Visualizar Cardápio'.");
+                            break;
+                        case "3":
+                            System.out.println("\nVocê escolheu 'Gerenciar Conta'.");
+                            break;
+                        case "4":
+                            System.out.println("\nSaindo do sistema. Até mais!");
+                            sair = true;
+                            break;
+                        default:
+                            System.out.println("\n⚠️ Opção inválida. Tente novamente.");
+                            break;
+                    }
+                }
+
+            } else if (usuarioLogado instanceof Funcionario) {
+
+                System.out.printf("Login bem sucedido!\nOlá, %s.",usuarioLogado.getNome());
+                boolean sair = false;
+
+                while (!sair){
+                    System.out.println("\n╔═════════════════════════════╗");
+                    System.out.println("║         Funcionário         ║");
+                    System.out.println("╠═════════════════════════════╣");
+                    System.out.println("║ 1. Cadastrar Produtos       ║");
+                    System.out.println("║ 2. Lista de Pedidos         ║");
+                    System.out.println("║ 3. Lista de Alimentos       ║");
+                    System.out.println("║ 4. Imprimir Pedidos         ║");
+                    System.out.println("║ 5. Sair                     ║");
+                    System.out.println("╚═════════════════════════════╝");
+                    System.out.print("Escolha uma opção: ");
+
+                    // Captura da escolha do usuário
+                    String escolha = input.nextLine();
+
+                    switch (escolha) {
+                        case "1":
+                            System.out.println("\nVocê escolheu 'Fazer Pedido'.");
+                            // Adicione a lógica para fazer um pedido aqui
+                            break;
+                        case "2":
+                            System.out.println("\nVocê escolheu 'Visualizar Cardápio'.");
+                            // Adicione a lógica para visualizar o cardápio aqui
+                            break;
+                        case "3":
+                            System.out.println("\nVocê escolheu 'Gerenciar Conta'.");
+                            // Adicione a lógica para gerenciar a conta aqui
+                            break;
+                        case "4":
+                            // adicionar lógica para imprimir pedidos
+                            break;
+                        case "5":
+                            System.out.println("\nSaindo do sistema. Até mais!");
+                            sair = true;
+                            break;
+                        default:
+                            System.out.println("\n⚠️ Opção inválida. Tente novamente.");
+                            break;
+                    }
+                }
+            }
+
         }
+
+        input.close();
     }
 
-    public static void dadosFuncionarios(ArrayList<Pessoa> pessoas){
-        for(Pessoa pessoa : pessoas){
-            if(pessoa instanceof Funcionario f){
-                f.dadosFuncionario();
+    private static Pessoa autenticarUsuario(ArrayList<Pessoa> pessoas, String login, String senha){
+        for(Pessoa p : pessoas){
+            if(p instanceof AutenticarLogin a){
+                if(a.autenticar(login,senha)){
+                 return p;
+                }
             }
         }
+        return null; // retorna null caso o login tenha falhado
     }
 
-    public static void adicionarFuncionario(Pessoa pessoa, ArrayList<Funcionario> funcionarios, Funcionario f){
-        if(pessoa instanceof Administrador adm){
-            adm.adicionarFuncionario(f,funcionarios);
-        }
-    }
-
-    public static void listarFuncionarios(Pessoa pessoa,ArrayList<Funcionario> funcionarios){
-        if(pessoa instanceof Administrador adm){
-            adm.listarFuncionarios(funcionarios);
-        }
-    }
-
-    public static void excluirFuncionario(Pessoa pessoa,ArrayList<Funcionario> funcionarios,Funcionario f){
-        if(pessoa instanceof Administrador adm){
-            adm.excluirFuncionario(f, funcionarios);
-        }
-    }
-
-    public static void autenticarLogin(Pessoa pessoa){
-        if(pessoa instanceof Cliente c){
-            System.out.println("Login confirmado: "+ c.autenticar(c.getLogin(),c.getSenha()));
-        }
-        else if(pessoa instanceof Funcionario f){
-            System.out.println("Login confirmado: "+ f.autenticar(f.getLogin(),f.getSenha()));
-        }
-    }
 
 }
