@@ -1,21 +1,20 @@
 # Pizzaria - Sistema de Pedidos e Acesso de Funcionários
 
 ## Descrição
-Este projeto é um sistema de pedidos para uma pizzaria, desenvolvido em Java. Ele oferece uma interface onde **clientes** podem realizar o login, fazer pedidos de pizzas e acompanhar seu status. Além disso, **funcionários** da pizzaria podem acessar um painel administrativo com funcionalidades específicas, como gerenciamento de pedidos e controle de estoque.
+Este projeto é um sistema de pedidos para uma pizzaria, desenvolvido em Java. Ele oferece uma interface onde **clientes** podem realizar o login e fazer pedidos de pizzas. Além disso, **funcionários** da pizzaria podem acessar um painel  com funcionalidades específicas, como gerenciamento de pedidos e controle de estoque.
 
 ## Funcionalidades
 
 ### Para Clientes:
 - Login e registro de novos clientes.
-- Visualização do menu de pizzas disponíveis.
-- Adição de pizzas ao carrinho de compras.
+- Visualização do menu de pizzas e alimentos disponíveis.
 - Finalização de pedidos.
 - Acompanhamento do status do pedido.
 
 ### Para Funcionários:
 - Login exclusivo para funcionários.
 - Gerenciamento de pedidos: visualização de pedidos pendentes, em andamento e concluídos.
-- Controle de estoque: adicionar, editar ou remover pizzas do menu.
+- Controle de estoque.
 
 ## Tecnologias Utilizadas
 - **Linguagem**: Java
