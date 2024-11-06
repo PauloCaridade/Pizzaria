@@ -4,15 +4,15 @@ public abstract class Pessoa {
 
     private String nome;
     private int idade;
-    private String genero;
+    private String cpf;
     private String endereco;
     private String telefone;
     private String email;
 
-    public Pessoa(String nome, int idade, String genero, String endereco, String telefone, String email) {
+    public Pessoa(String nome, int idade, String cpf, String endereco, String telefone, String email) {
         this.setNome(nome);
         this.setIdade(idade);
-        this.setGenero(genero);
+        this.setCpf(cpf);
         this.setEndereco(endereco);
         this.setTelefone(telefone);
         this.setEmail(email);
@@ -34,12 +34,12 @@ public abstract class Pessoa {
         this.idade = idade;
     }
 
-    public String getGenero() {
-        return this.genero;
+    public String getCpf() {
+        return this.cpf;
     }
 
-    public void setGenero(String genero) {
-        this.genero = genero;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getEndereco() {
@@ -68,8 +68,17 @@ public abstract class Pessoa {
 
     @Override
     public String toString() {
-        return "Nome: " + this.nome + "\n" + "Idade: " + this.idade + "\n" + "Gênero: " + this.genero + "\n" +
+        return "Nome: " + this.nome + "\n" + "Idade: " + this.idade + "\n" + "CPF: " + this.cpf + "\n" +
                 "Endereço: " + this.endereco + "\n" + "Telefone: " + this.telefone + "\n" + "E-mail: " + this.email + "\n";
+    }
+
+    public void editarDados(String nome, int idade, String cpf, String endereco, String telefone, String email) {
+        this.setNome(nome);
+        this.setIdade(idade);
+        this.setCpf(cpf);
+        this.setEndereco(endereco);
+        this.setTelefone(telefone);
+        this.setEmail(email);
     }
 
 }

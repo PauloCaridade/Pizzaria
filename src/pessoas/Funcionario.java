@@ -10,8 +10,8 @@ public class Funcionario extends Pessoa implements AutenticarLogin {
     private String login;
     private String senha;
 
-    public Funcionario(String nome, int idade, String genero, String endereco, String telefone, String email,String cargo, double salario, String login, String senha) {
-        super(nome, idade, genero, endereco, telefone, email);
+    public Funcionario(String nome, int idade, String cpf, String endereco, String telefone, String email,String cargo, double salario, String login, String senha) {
+        super(nome, idade, cpf, endereco, telefone, email);
         this.setIdFuncionario();
         this.setCargo(cargo);
         this.setSalario(salario);
@@ -63,7 +63,7 @@ public class Funcionario extends Pessoa implements AutenticarLogin {
 
     @Override
     public String toString() {
-        return "\nNome: " + super.getNome() + "\n" + "Idade: " + super.getIdade() + "\n" + "Gênero: " + super.getGenero() + "\n" +
+        return "\nNome: " + super.getNome() + "\n" + "Idade: " + super.getIdade() + "\n" + "CPF: " + super.getCpf() + "\n" +
                 "Endereço: " + super.getEndereco() + "\n" + "Telefone: " + super.getTelefone() + "\n" + "E-mail: "
                 + super.getEmail() + "\n" + "Cargo: " + this.getCargo() + "\n" + "Salário: R$" + this.getSalario() +
                 "\n" + "ID: " + this.getIdFuncionario();

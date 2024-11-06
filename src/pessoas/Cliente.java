@@ -27,4 +27,5 @@ public class Cliente extends Pessoa implements  AutenticarLogin {
     public boolean autenticar(String login, String senha) {
         return this.login.equals(login) && this.senha.equals(senha);
     }
+
 }

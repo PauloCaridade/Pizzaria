@@ -7,8 +7,8 @@ public class Administrador extends Funcionario  implements Administar{
     private String login;
     private String senha;
 
-   public Administrador(String nome, int idade, String genero, String endereco, String telefone, String email, String login, String senha) {
-       super(nome, idade, genero, endereco, telefone, email, "admin",7500,login,senha);
+   public Administrador(String nome, int idade, String cpf, String endereco, String telefone, String email, String login, String senha) {
+       super(nome, idade, cpf, endereco, telefone, email, "admin",7500,login,senha);
        super.setIdFuncionario();
    }
 
