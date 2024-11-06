@@ -2,6 +2,8 @@ package Pizzaria;
 import java.util.ArrayList;
 import java.util.Scanner;
 import pessoas.*;
+import pedido.*;
+import cardapio.*;
 
 
 public class Pizzaria {
@@ -9,6 +11,8 @@ public class Pizzaria {
     public static void main(String[] args) {
 
         ArrayList<Pessoa> pessoas = new ArrayList<Pessoa>();
+        Cardapio cardapio = new Cardapio();  // Cria o cardápio
+        ArrayList<Pedido> pedidos = new ArrayList<>();  // Lista para armazenar pedidos
 
 
         pessoas.add(new Cliente("João Vitor",22,"Masculino","Curitiba",
@@ -67,8 +71,8 @@ public class Pizzaria {
                             System.out.print("Idade: ");
                             int idadeFuncionario = input.nextInt();
                             input.nextLine();
-                            System.out.print("Genero: ");
-                            String generoFuncionario = input.nextLine();
+                            System.out.print("CPF: ");
+                            String cpfFuncionario = input.nextLine();
                             System.out.print("Endereço: ");
                             String enderecoFuncionario = input.nextLine();
                             System.out.print("Telefone: ");
@@ -85,7 +89,7 @@ public class Pizzaria {
                             System.out.print("Senha: ");
                             String senhaFuncionario = input.nextLine();
                             Funcionario novoFuncionario = new Funcionario(nomeFuncionario,idadeFuncionario,
-                                    generoFuncionario,enderecoFuncionario,telefoneFuncionario,emailFuncionario,
+                                    cpfFuncionario,enderecoFuncionario,telefoneFuncionario,emailFuncionario,
                                     cargoFuncionario,salarioFuncionario,loginFuncionario,senhaFuncionario);
                             pessoas.add(novoFuncionario);
                             break;
@@ -118,7 +122,7 @@ public class Pizzaria {
 
             }
 
-            else if (usuarioLogado instanceof Cliente) {
+            else if (usuarioLogado instanceof Cliente c) {
 
                 System.out.printf("Login bem sucedido!\nOlá, %s.",usuarioLogado.getNome());
                 boolean sair = false;
@@ -130,7 +134,7 @@ public class Pizzaria {
                     System.out.println("╠═════════════════════════════╣");
                     System.out.println("║ 1. Fazer Pedido             ║");
                     System.out.println("║ 2. Visualizar Cardápio      ║");
-                    System.out.println("║ 3. Gerenciar Conta          ║");
+                    System.out.println("║ 3. Alterar Dados            ║");
                     System.out.println("║ 4. Sair                     ║");
                     System.out.println("╚═════════════════════════════╝");
                     System.out.print("Escolha uma opção: ");
@@ -139,13 +143,27 @@ public class Pizzaria {
 
                     switch (escolha) {
                         case "1":
-                            System.out.println("\nVocê escolheu 'Fazer Pedido'.");
+                            realizarPedido(input,c,cardapio,pedidos);
                             break;
                         case "2":
-                            System.out.println("\nVocê escolheu 'Visualizar Cardápio'.");
+                            cardapio.exibirCardapio();
                             break;
                         case "3":
-                            System.out.println("\nVocê escolheu 'Gerenciar Conta'.");
+                                System.out.print("Nome: ");
+                                String novoNome = input.nextLine();
+                                System.out.print("Idade: ");
+                                int novaIdade = input.nextInt();
+                                input.nextLine();
+                                System.out.print("CPF: ");
+                                String novoCpf = input.nextLine();
+                                System.out.print("Endereço: ");
+                                String novoEndereco = input.nextLine();
+                                System.out.print("Telefone: ");
+                                String novoTelefone = input.nextLine();
+                                System.out.print("Email: ");
+                                String novoEmail = input.nextLine();
+                                c.editarDados(novoNome,novaIdade,novoCpf,novoEndereco,novoTelefone,novoEmail);
+                                System.out.print(c);
                             break;
                         case "4":
                             System.out.println("\nSaindo do sistema. Até mais!");
@@ -168,7 +186,6 @@ public class Pizzaria {
                     System.out.println("╠═════════════════════════════╣");
                     System.out.println("║ 1. Cadastrar Produtos       ║");
                     System.out.println("║ 2. Lista de Pedidos         ║");
-                    System.out.println("║ 3. Lista de Alimentos       ║");
                     System.out.println("║ 4. Imprimir Pedidos         ║");
                     System.out.println("║ 5. Sair                     ║");
                     System.out.println("╚═════════════════════════════╝");
@@ -218,6 +235,65 @@ public class Pizzaria {
             }
         }
         return null; // retorna null caso o login tenha falhado
+    }
+
+    private static void realizarPedido(Scanner scanner, Cliente cliente, Cardapio cardapio, ArrayList<Pedido> pedidos){
+        Pedido pedido = new Pedido(cliente.getCpf(),cliente.getNome(),cliente.getEndereco(),cliente.getTelefone(),
+                cliente.getEmail(),"definir");
+        boolean pedidoFinalizado = false;
+        String continuarPedido;
+        int categoriaAlimento;
+
+        while(!pedidoFinalizado){
+
+            System.out.println();
+            cardapio.exibirCardapio();
+            System.out.print("Escolha uma categoria\n1-Pizza\n2-Adicional\n3-Bebida\nCategoria: ");
+            categoriaAlimento= scanner.nextInt();
+            scanner.nextLine();
+
+            if(categoriaAlimento == 1){
+                int pizzaEscolhida;
+                System.out.println();
+                for(int i = 0; i < cardapio.getPizzas().size(); i++){
+                    System.out.println((i + 1) + ") " + cardapio.getPizzas().get(i).getNome() +
+                            " | Preço: R$ " + cardapio.getPizzas().get(i).getPreco());
+                }
+                System.out.print("Escolha a pizza: ");
+                pizzaEscolhida = scanner.nextInt();
+
+                if( pizzaEscolhida  >= 1 && pizzaEscolhida <= cardapio.getPizzas().size()){
+                    System.out.print("Quantidade: ");
+                    int quantidade = scanner.nextInt();
+                    scanner.nextLine();
+                    ItemPedido itemPedidoPizza = new ItemPedido(cardapio.getPizzas().get(pizzaEscolhida - 1).getNome(), quantidade,
+                            cardapio.getPizzas().get(pizzaEscolhida - 1).getPreco());
+                    pedido.adicionarItem(itemPedidoPizza);
+                    System.out.println("\nPizza "+cardapio.getPizzas().get(pizzaEscolhida - 1).getNome() +
+                            " Adicionada aos pedidos!");
+                    pedidos.add(pedido);
+
+                    System.out.print("\nDeseja realizar mais algum pedido?[S/N]\n\nOpção:");
+                    continuarPedido = scanner.nextLine();
+                    if(continuarPedido.toLowerCase().equals("n")){
+                        for(Pedido p : pedidos){
+                            if(p.getCpfCliente() == cliente.getCpf()){
+                                p.exibirDetalhesPedido();
+                            }
+                        }
+                        pedidoFinalizado = true;
+                    }
+
+                }
+
+            }
+            else if(categoriaAlimento == 2){
+                System.out.println("você escolheu bebida!");
+            }
+            else if(categoriaAlimento == 3){
+                System.out.println("você escolheu um adicional!");
+            }
+        }
     }
 
 

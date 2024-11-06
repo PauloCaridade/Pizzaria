@@ -6,13 +6,20 @@ public class ItemPedido {
     private double precoUnitario;
     private String adicionais;
 
-    // Construtor
+
     public ItemPedido(String nomeItem, int quantidade, double precoUnitario, String adicionais) {
         this.nomeItem = nomeItem;
         this.quantidade = quantidade;
         this.precoUnitario = precoUnitario;
         this.adicionais = adicionais;
     }
+
+    public ItemPedido(String nomeItem, int quantidade, double precoUnitario) {
+        this.nomeItem = nomeItem;
+        this.quantidade = quantidade;
+        this.precoUnitario = precoUnitario;
+    }
+
 
     // Método para calcular o preço total do item
     public double calcularPrecoTotal() {
