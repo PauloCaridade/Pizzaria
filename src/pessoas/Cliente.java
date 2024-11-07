@@ -27,5 +27,12 @@ public class Cliente extends Pessoa implements  AutenticarLogin {
     public boolean autenticar(String login, String senha) {
         return this.login.equals(login) && this.senha.equals(senha);
     }
+    @Override
+    public String exibirInformacoes() {
+        return "Nome: " + super.getNome() + "\n" + "Idade: " + super.getIdade() + "\n" + "CPF: " + super.getCpf() + "\n" +
+                "Endereço: " + super.getEndereco() + "\n" + "Telefone: " + super.getTelefone() + "\n" + "E-mail: " + super.getEmail() + "\n" +
+                "Login:" + this.getLogin() + "\n" + "Senha: " + this.getSenha();
+    }
+
 
 }

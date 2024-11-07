@@ -66,8 +66,8 @@ public abstract class Pessoa {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
+
+    public String exibirInformacoes() {
         return "Nome: " + this.nome + "\n" + "Idade: " + this.idade + "\n" + "CPF: " + this.cpf + "\n" +
                 "Endereço: " + this.endereco + "\n" + "Telefone: " + this.telefone + "\n" + "E-mail: " + this.email + "\n";
     }
