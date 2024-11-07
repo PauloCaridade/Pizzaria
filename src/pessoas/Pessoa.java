@@ -1,6 +1,8 @@
 package pessoas;
 
-public abstract class Pessoa {
+import java.io.Serializable;
+
+public abstract class Pessoa implements Serializable {
 
     private String nome;
     private int idade;

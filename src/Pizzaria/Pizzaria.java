@@ -1,5 +1,6 @@
 package Pizzaria;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import pessoas.*;
@@ -9,21 +10,27 @@ import excecoes.FormatoInvalidoException;
 
 public class Pizzaria {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
 
         ArrayList<Pessoa> pessoas = new ArrayList<>();
         Cardapio cardapio = new Cardapio();  // Cria o cardápio
         ArrayList<Pedido> pedidos = new ArrayList<>();  // Lista para armazenar pedidos
 
         // Exemplo de clientes e funcionários
-        pessoas.add(new Cliente("João Vitor",22,"Masculino","Curitiba",
-                "998655302","joão@gmail.com","joãov","joão123"));
+        //pessoas.add(new Cliente("João Vitor",22,"Masculino","Curitiba",
+                //"998655302","joão@gmail.com","joãov","joão123"));
 
-        pessoas.add(new Funcionario("Leonardo",25,"Masculino","Curitiba",
-                "114255807","leo@outlook.com","Pizzaiolo",2500,"leleco","leo123"));
+        Pessoa p1 = new Cliente("João Vitor",22,"Masculino","Curitiba",
+                "998655302","joão@gmail.com","joãov","joão123");
 
-        pessoas.add(new Administrador("Pedro",35,"Masculino","Curitiba",
-                "556382970","pedro@gmail.com","pedro","123"));
+        // Salvando o objeto pessoa (isso irá salvar no seu disco)
+        salvarPessoa(p1);
+
+        // Carregando a pessoa que salvamos (aqui carregamos do disco)
+        Pessoa p2 = carregarPessoa();
+
+        // Imprimindo informações da pessoa que foi carregada do arquivo 'pessoa.txt'
+        System.out.println(p2.exibirInformacoes());
 
         Scanner input = new Scanner(System.in);
         Pessoa usuarioLogado = null;
@@ -240,5 +247,45 @@ public class Pizzaria {
             }
         }
         pedidos.add(pedido);
+    }
+
+    public static void salvarPessoa(Pessoa p) throws IOException {
+        // Criamos um objeto que irá especificar o arquivo onde o objeto 'p'
+        // será salvo. A extensão do arquivo não precisa ser necessariamente '.p'.
+        // Eu poderia colocar qualquer extensão.
+        FileOutputStream fos = new FileOutputStream("pessoa.txt");
+
+        // Aqui criamos um outro objeto que é responsável por converter nosso
+        // objeto 'p' em um formato que pode ser reconstruído posteriormente
+        ObjectOutputStream os = new ObjectOutputStream(fos);
+
+        // Escreve o objeto 'p' no arquivo
+        os.writeObject(p);
+
+        // Fecha o objeto de serialização
+        os.close();
+
+        // Fechamos o arquivo
+        fos.close();
+    }
+
+    public static Pessoa carregarPessoa() throws IOException, ClassNotFoundException {
+        // Criamos um objeto que irá especificar o arquivo onde está salvo um objeto.
+        FileInputStream fis = new FileInputStream("pessoa.txt");
+
+        // Aqui criamos um objeto que irá reconstruir o objeto armazenado no
+        // 'fis' criado anteriormente
+        ObjectInputStream is = new ObjectInputStream(fis);
+
+        // Lemos o objeto e convertemos ele do arquivo 'pessoa.txt'. Na sequência nós
+        // convertemos o objeto para o tipo 'Pessoa'
+        Pessoa p = (Pessoa) is.readObject();
+
+        // Fechamos o objeto de serialização
+        is.close();
+
+        // Fechamos o arquivo
+        fis.close();
+        return p;
     }
 }
