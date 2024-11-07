@@ -6,7 +6,6 @@ public class ItemPedido {
     private double precoUnitario;
     private String adicionais;
 
-
     public ItemPedido(String nomeItem, int quantidade, double precoUnitario, String adicionais) {
         this.nomeItem = nomeItem;
         this.quantidade = quantidade;
