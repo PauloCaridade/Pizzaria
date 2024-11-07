@@ -1,29 +1,7 @@
 package cardapio;
 
-public class Adicional {
-    private String nome;
-    private double preco;
-
-    // Construtor
+public class Adicional extends ItemCardapio {
     public Adicional(String nome, double preco) {
-        this.nome = nome;
-        this.preco = preco;
-    }
-
-    // Getters e Setters
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(double preco) {
-        this.preco = preco;
+        super(nome, preco);  // Chama o construtor da classe ItemCardapio
     }
 }
