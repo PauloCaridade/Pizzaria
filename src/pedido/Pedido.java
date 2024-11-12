@@ -12,7 +12,11 @@ public class Pedido {
     private String emailCliente;
 
 
-    private final ArrayList<ItemPedido> itens;
+    private final ArrayList<String> nomesItens;
+    private final ArrayList<Integer> quantidades;
+    private final ArrayList<Double> precosUnitarios;
+    private final ArrayList<String> adicionais;
+
     private String tipoEntrega;
     private double valorTotal;
     private Pagamento tipoPagamento;
@@ -24,21 +28,32 @@ public class Pedido {
         this.telefoneCliente = telefone;
         this.emailCliente = email;
         this.tipoEntrega = tipoEntrega;
-        this.itens = new ArrayList<>();
+        this.nomesItens = new ArrayList<>();
+        this.quantidades = new ArrayList<>();
+        this.precosUnitarios = new ArrayList<>();
+        this.adicionais = new ArrayList<>();
         this.valorTotal = 0.0;
     }
 
 
-    public void adicionarItem(ItemPedido item) {
-        itens.add(item);
-        this.valorTotal += item.calcularPrecoTotal();
+    public void adicionarItem(String nomeItem, int quantidade, double precoUnitario, String adicionais) {
+        this.nomesItens.add(nomeItem);
+        this.quantidades.add(quantidade);
+        this.precosUnitarios.add(precoUnitario);
+        this.adicionais.add(adicionais);
+        this.valorTotal += calcularPrecoTotalItem(quantidade, precoUnitario);
+    }
+
+
+    private double calcularPrecoTotalItem(int quantidade, double precoUnitario) {
+        return quantidade * precoUnitario;
     }
 
 
     public double calcularValorTotal() {
         valorTotal = 0.0;
-        for (ItemPedido item : itens) {
-            valorTotal += item.calcularPrecoTotal();
+        for (int i = 0; i < nomesItens.size(); i++) {
+            valorTotal += calcularPrecoTotalItem(quantidades.get(i), precosUnitarios.get(i));
         }
         return valorTotal;
     }
@@ -112,14 +127,11 @@ public class Pedido {
         System.out.println("Tipo de Entrega: " + this.tipoEntrega);
         System.out.println("Itens do Pedido:");
 
-
-        for (ItemPedido item : itens) {
-            System.out.println("- " + item.getNomeItem() + " | Qtd: " + item.getQuantidade() + " | Preço: R$" + item.calcularPrecoTotal());
+        for (int i = 0; i < nomesItens.size(); i++) {
+            System.out.println("- " + nomesItens.get(i) + " | Qtd: " + quantidades.get(i) + " | Preço: R$" + calcularPrecoTotalItem(quantidades.get(i), precosUnitarios.get(i)) + " | Adicionais: " + adicionais.get(i));
         }
 
-
         System.out.println("Valor Total do Pedido: R$ " + this.calcularValorTotal());
-
 
         if (this.tipoPagamento != null) {
             System.out.println("Tipo de Pagamento: " + this.tipoPagamento.getClass().getSimpleName());

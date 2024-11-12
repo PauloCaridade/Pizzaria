@@ -1,12 +1,14 @@
 package pessoas;
+import pagamento.*;
 
 public class Cliente extends Pessoa implements  AutenticarLogin {
 
     private String login;
     private String senha;
+    private Pagamento metodoPagamento;
 
-    public Cliente (String nome, int idade, String genero, String endereco, String telefone, String email, String login, String senha){
-        super(nome, idade, genero, endereco, telefone, email);
+    public Cliente (String nome, int idade, String cpf, String endereco, String telefone, String email, String login, String senha){
+        super(nome, idade, cpf, endereco, telefone, email);
         this.setLogin(login);
         this.setSenha(senha);
     }
@@ -23,6 +25,11 @@ public class Cliente extends Pessoa implements  AutenticarLogin {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
+    public void setMetodoPagamento(Pagamento metodoPagamento) {
+        this.metodoPagamento = metodoPagamento;
+    }
+
     @Override
     public boolean autenticar(String login, String senha) {
         return this.login.equals(login) && this.senha.equals(senha);

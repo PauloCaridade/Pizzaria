@@ -1,12 +1,17 @@
 package pagamento;
+import pessoas.*;
 
 public class Pix extends Pagamento {
 
     private String chavePix;
     private String instituicaoFinanceira;
+    private String nomeProprietario;
 
-    public Pix(double valor, String chavePix, String instituicaoFinanceira) {
+    public Pix(double valor, String chavePix, String instituicaoFinanceira, Pessoa pessoa) {
         super(valor);
+        this.setChavePix(chavePix);
+        this.setInstituicaoFinanceira(instituicaoFinanceira);
+        this.setNomeProprietario(pessoa.getNome());
     }
 
     public String getChavePix() {
@@ -23,6 +28,14 @@ public class Pix extends Pagamento {
 
     public void setInstituicaoFinanceira(String instituicaoFinanceira) {
         this.instituicaoFinanceira = instituicaoFinanceira;
+    }
+
+    public String getNomeProprietario() {
+        return nomeProprietario;
+    }
+
+    public void setNomeProprietario(String nomeProprietario) {
+        this.nomeProprietario = nomeProprietario;
     }
 
     @Override
@@ -42,4 +55,7 @@ public class Pix extends Pagamento {
         return super.getStatus();
     }
 
+    public void dadosPix() {
+        System.out.println("\nChave Pix: " + chavePix + "\nInstituicao Financeira: " + instituicaoFinanceira);
+    }
 }

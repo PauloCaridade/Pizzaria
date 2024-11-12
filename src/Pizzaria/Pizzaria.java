@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import pessoas.*;
+import pagamento.*;
 import pedido.*;
 import cardapio.*;
 import excecoes.FormatoInvalidoException;
@@ -13,24 +14,37 @@ public class Pizzaria {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
         ArrayList<Pessoa> pessoas = new ArrayList<>();
-        Cardapio cardapio = new Cardapio();  // Cria o cardápio
-        ArrayList<Pedido> pedidos = new ArrayList<>();  // Lista para armazenar pedidos
+        Cardapio cardapio = new Cardapio();
+        ArrayList<Pedido> pedidos = new ArrayList<>();
+        ArrayList<Pagamento> metodosPagamento = new ArrayList<>();
 
-        // Exemplo de clientes e funcionários
-        //pessoas.add(new Cliente("João Vitor",22,"Masculino","Curitiba",
-                //"998655302","joão@gmail.com","joãov","joão123"));
+        Pessoa p1 = new Cliente("João Vitor",22,"111.111.111-00","Curitiba",
+                "(41) 998655302","joão@gmail.com","joãov","joão123");
 
-        Pessoa p1 = new Cliente("João Vitor",22,"Masculino","Curitiba",
-                "998655302","joão@gmail.com","joãov","joão123");
-
-        // Salvando o objeto pessoa (isso irá salvar no seu disco)
         salvarPessoa(p1);
+        Pessoa c1 = carregarPessoa();
 
-        // Carregando a pessoa que salvamos (aqui carregamos do disco)
-        Pessoa p2 = carregarPessoa();
 
-        // Imprimindo informações da pessoa que foi carregada do arquivo 'pessoa.txt'
-        System.out.println(p2.exibirInformacoes());
+        Pessoa c2 = new Cliente("Carlos Mendes", 40, "222.222.222-00", "Rua do Sol, 789",
+                "(41) 98765-1234", "carlos.mendes@email.com", "carlosm", "carlos789");
+
+        Pessoa c3 = new Cliente("Maria Oliveira", 25, "Feminino", "Avenida Central, 456",
+                "(41) 91234-5678", "maria.oliveira@email.com", "marimari", "oliveira123");
+
+
+        Pessoa f = new Funcionario("Henrique Ancelotti",30,"333.333.333-00","Rua do Batel, 123",
+                "(41) 98765-4321","henr@gmail.com","pizzaiolo",2500,"ancel","h123");
+
+
+        Pessoa adm = new Administrador("Luiza Angela",40,"987.654.321-00","Avenida Central, 500",
+                "(41) 12345-6789","lu@outlook.com","lulu","luangela111");
+
+        pessoas.add(c1);
+        pessoas.add(c2);
+        pessoas.add(c3);
+        pessoas.add(f);
+        pessoas.add(adm);
+
 
         Scanner input = new Scanner(System.in);
         Pessoa usuarioLogado = null;
@@ -121,7 +135,8 @@ public class Pizzaria {
                     System.out.println("║ 1. Fazer Pedido             ║");
                     System.out.println("║ 2. Visualizar Cardápio      ║");
                     System.out.println("║ 3. Alterar Dados            ║");
-                    System.out.println("║ 4. Sair                     ║");
+                    System.out.println("║ 4. Métodos de Pagamento     ║");
+                    System.out.println("║ 5. Sair                     ║");
                     System.out.println("╚═════════════════════════════╝");
                     System.out.print("Escolha uma opção: ");
 
@@ -129,7 +144,7 @@ public class Pizzaria {
 
                     switch (escolha) {
                         case "1":
-                            realizarPedido(input, c, cardapio, pedidos);
+
                             break;
                         case "2":
                             cardapio.exibirCardapio();
@@ -152,6 +167,28 @@ public class Pizzaria {
                             System.out.print(c);
                             break;
                         case "4":
+                            if (metodosPagamento.isEmpty()) {
+                                System.out.println("\nCadastrar método de pagamento:");
+                                cadastrarMetodoPagamento(input, c, metodosPagamento);
+                            } else {
+                                System.out.println("\nMétodos de pagamento já cadastrados:");
+                                for (Pagamento m : metodosPagamento) {
+                                    if (m instanceof CartaoCredito cc) {
+                                        cc.exibirDadosCartaoCredito();
+                                    } else if (m instanceof CartaoDebito cd) {
+                                        cd.exibirDadosCartaoDebito();
+                                    } else if (m instanceof Pix pix) {
+                                        pix.dadosPix();
+                                    }
+                                }
+                                System.out.print("\nDeseja cadastrar um novo método de pagamento? (S/N): ");
+                                String resposta = input.nextLine();
+                                if (resposta.toLowerCase().equals("s")) {
+                                    cadastrarMetodoPagamento(input, c, metodosPagamento);
+                                }
+                            }
+                            break;
+                        case "5":
                             System.out.println("\nSaindo do sistema. Até mais!");
                             sair = true;
                             break;
@@ -218,36 +255,39 @@ public class Pizzaria {
         return null;
     }
 
-    private static void realizarPedido(Scanner scanner, Cliente cliente, Cardapio cardapio, ArrayList<Pedido> pedidos){
-        Pedido pedido = new Pedido(cliente.getCpf(), cliente.getNome(), cliente.getEndereco(), cliente.getTelefone(),
-                cliente.getEmail(),"definir");
-        boolean pedidoFinalizado = false;
+    private static Pedido criarPedido(Scanner input, Cliente c) {
+        System.out.println("\nIniciando um novo pedido...");
+        System.out.print("Escolha o tipo de entrega (Retirar ou Entregar): ");
+        String tipoEntrega = input.nextLine();
 
-        while(!pedidoFinalizado){
-            System.out.println();
-            cardapio.exibirCardapio();
-            System.out.print("Escolha um item pelo número ou 'S' para sair: ");
-            String escolha = scanner.nextLine();
+        Pedido novoPedido = new Pedido(c.getCpf(), c.getNome(), c.getEndereco(), c.getTelefone(), c.getEmail(), tipoEntrega);
 
-            if (escolha.equalsIgnoreCase("S")) {
-                pedidoFinalizado = true;
-            } else {
-                try {
-                    int itemIndex = Integer.parseInt(escolha) - 1;
-                    ItemCardapio item = cardapio.getItens().get(itemIndex);
-                    System.out.print("Quantidade: ");
-                    int quantidade = scanner.nextInt();
-                    scanner.nextLine();
-                    ItemPedido itemPedido = new ItemPedido(item.getNome(), quantidade, item.getPreco());
-                    pedido.adicionarItem(itemPedido);
-                    System.out.println("Item " + item.getNome() + " adicionado ao pedido!");
-                } catch (Exception e) {
-                    System.out.println("Seleção inválida. Tente novamente.");
-                }
-            }
+        boolean adicionarMaisItens = true;
+        while (adicionarMaisItens) {
+            System.out.print("Digite o nome do item: ");
+            String nomeItem = input.nextLine();
+
+            System.out.print("Quantidade: ");
+            int quantidade = input.nextInt();
+
+            System.out.print("Preço unitário: R$ ");
+            double precoUnitario = input.nextDouble();
+            input.nextLine();  // Consome a quebra de linha
+
+            System.out.print("Adicionais (se houver): ");
+            String adicionais = input.nextLine();
+
+            novoPedido.adicionarItem(nomeItem, quantidade, precoUnitario, adicionais);
+
+            System.out.print("Deseja adicionar mais itens? (S/N): ");
+            String resposta = input.nextLine();
+            adicionarMaisItens = resposta.equalsIgnoreCase("S");
         }
-        pedidos.add(pedido);
+
+        return novoPedido;
     }
+
+
 
     public static void salvarPessoa(Pessoa p) throws IOException {
         // Criamos um objeto que irá especificar o arquivo onde o objeto 'p'
@@ -288,4 +328,62 @@ public class Pizzaria {
         fis.close();
         return p;
     }
+
+    private static void cadastrarMetodoPagamento(Scanner input, Cliente c, ArrayList<Pagamento> metodosPagamento) {
+        Pagamento pagamento;
+        System.out.print("1 - Cartão de Crédito\n2 - Cartão de Débito\n3 - Pix\nMétodo: ");
+        int metodo = input.nextInt();
+        input.nextLine();
+
+        switch (metodo) {
+            case 1:
+                System.out.print("\nTitular: " + c.getNome() + "\n");
+                System.out.print("Número: ");
+                String numero = input.nextLine();
+                if (numero.length() < 16) {
+                    System.out.println("Número inválido.");
+                    return;
+                }
+                System.out.print("Validade (MM/AA): ");
+                String validade = input.nextLine();
+                System.out.print("CVV: ");
+                String cvv = input.nextLine();
+                pagamento = new CartaoCredito(0, c.getNome(), numero, validade, cvv);
+                metodosPagamento.add(pagamento);
+                break;
+            case 2:
+                System.out.print("\nTitular: " + c.getNome() + "\n");
+                System.out.print("Número: ");
+                String numeroDebito = input.nextLine();
+                if (numeroDebito.length() < 16) {
+                    System.out.println("Número inválido.");
+                    return;
+                }
+                System.out.print("Validade (MM/AA): ");
+                String validadeDebito = input.nextLine();
+                System.out.print("CVV: ");
+                String cvvDebito = input.nextLine();
+                pagamento = new CartaoDebito(0, c.getNome(), numeroDebito, validadeDebito, cvvDebito);
+                metodosPagamento.add(pagamento);
+                break;
+
+            case 3:
+                System.out.print("\nChave Pix: ");
+                String chave = input.nextLine();
+                System.out.print("Instituição financeira: ");
+                String instituicao = input.nextLine();
+                pagamento = new Pix(0, chave, instituicao, c);
+                metodosPagamento.add(pagamento);
+                break;
+            default:
+                System.out.println("Opção inválida. Tente novamente.");
+                break;
+        }
+        System.out.println("Método de pagamento cadastrado com sucesso!");
+    }
+
+
+
+
+
 }
