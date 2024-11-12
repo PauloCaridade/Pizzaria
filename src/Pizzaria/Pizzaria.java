@@ -24,7 +24,6 @@ public class Pizzaria {
         salvarPessoa(p1);
         Pessoa c1 = carregarPessoa();
 
-
         Pessoa c2 = new Cliente("Carlos Mendes", 40, "222.222.222-00", "Rua do Sol, 789",
                 "(41) 98765-1234", "carlos.mendes@email.com", "carlosm", "carlos789");
 
@@ -208,8 +207,8 @@ public class Pizzaria {
                     System.out.println("║         Funcionário         ║");
                     System.out.println("╠═════════════════════════════╣");
                     System.out.println("║ 1. Cadastrar Produtos       ║");
-                    System.out.println("║ 2. Lista de Pedidos         ║");
-                    System.out.println("║ 3. Imprimir Pedidos         ║");
+                    System.out.println("║ 2. Alterar Produtos         ║");
+                    System.out.println("║ 3. Lista de Pedidos         ║");
                     System.out.println("║ 4. Sair                     ║");
                     System.out.println("╚═════════════════════════════╝");
                     System.out.print("Escolha uma opção: ");
@@ -219,14 +218,103 @@ public class Pizzaria {
                     switch (escolha) {
                         case "1":
                             System.out.println("\nVocê escolheu 'Cadastrar Produtos'.");
-                            // Adicione a lógica para cadastro de produtos aqui
+                            System.out.print("Escolha o tipo de produto:\n1 - Pizza\n2 - Bebida\n3 - Adicional\nOpção: ");
+                            int tipoProduto = input.nextInt();
+                            input.nextLine();  // Consome a nova linha
+
+                            String nomeProduto;
+                            double precoProduto;
+                            switch (tipoProduto) {
+                                case 1:  // Cadastrar Pizza
+                                    System.out.print("Nome da Pizza: ");
+                                    nomeProduto = input.nextLine();
+                                    System.out.print("Preço da Pizza: R$ ");
+                                    precoProduto = input.nextDouble();
+                                    input.nextLine();
+
+                                    // Cria um novo objeto Pizza e adiciona ao cardápio
+                                    Pizza novaPizza = new Pizza(nomeProduto, precoProduto);
+                                    cardapio.adicionarItem(novaPizza);
+                                    System.out.println("Pizza cadastrada com sucesso!");
+                                    cardapio.exibirItensComIndices();
+                                    break;
+
+                                case 2:  // Cadastrar Bebida
+                                    System.out.print("Nome da Bebida: ");
+                                    nomeProduto = input.nextLine();
+                                    System.out.print("Preço da Bebida: R$ ");
+                                    precoProduto = input.nextDouble();
+                                    input.nextLine();
+
+                                    // Cria um novo objeto Bebida e adiciona ao cardápio
+                                    Bebida novaBebida = new Bebida(nomeProduto, precoProduto);
+                                    cardapio.adicionarItem(novaBebida);
+                                    System.out.println("Bebida cadastrada com sucesso!");
+                                    cardapio.exibirItensComIndices();
+                                    break;
+
+                                case 3:  // Cadastrar Adicional
+                                    System.out.print("Nome do Adicional: ");
+                                    nomeProduto = input.nextLine();
+                                    System.out.print("Preço do Adicional: R$ ");
+                                    precoProduto = input.nextDouble();
+                                    input.nextLine();
+
+                                    // Cria um novo objeto Adicional e adiciona ao cardápio
+                                    Adicional novoAdicional = new Adicional(nomeProduto, precoProduto);
+                                    cardapio.adicionarItem(novoAdicional);
+                                    System.out.println("Adicional cadastrado com sucesso!");
+                                    cardapio.exibirItensComIndices();
+                                    break;
+
+                                default:
+                                    System.out.println("Opção inválida.");
+                                    break;
+                            }
                             break;
                         case "2":
-                            System.out.println("\nVocê escolheu 'Lista de Pedidos'.");
-                            // Adicione a lógica para listar pedidos aqui
+                            System.out.println("\nVocê escolheu 'Alterar Produtos'.");
+                            if (cardapio.getItens().isEmpty()) {
+                                System.out.println("O cardápio está vazio. Nenhum produto para alterar.");
+                                break;
+                            }
+
+                            // Exibe os itens do cardápio com índices usando o metodo da classe Cardapio
+                            cardapio.exibirItensComIndices();
+
+                            // Solicita ao funcionário que escolha o produto para alteração
+                            System.out.print("Escolha o número do produto que deseja alterar: ");
+                            int produtoEscolhido = input.nextInt();
+                            input.nextLine(); // Consumir a quebra de linha
+
+                            // Verifica se a escolha é válida
+                            if (produtoEscolhido < 1 || produtoEscolhido > cardapio.getItens().size()) {
+                                System.out.println("Opção inválida.");
+                                break;
+                            }
+
+                            // Obtém o item selecionado
+                            ItemCardapio itemParaAlterar = cardapio.getItens().get(produtoEscolhido - 1);
+
+                            // Solicita as novas informações
+                            System.out.print("Novo nome para o produto (deixe em branco para não alterar): ");
+                            String novoNome = input.nextLine();
+                            if (!novoNome.isEmpty()) {
+                                itemParaAlterar.setNome(novoNome);
+                            }
+
+                            System.out.print("Novo preço para o produto (digite -1 para não alterar): ");
+                            double novoPreco = input.nextDouble();
+                            input.nextLine();  // Consumir a quebra de linha
+                            if (novoPreco >= 0) {
+                                itemParaAlterar.setPreco(novoPreco);
+                            }
+
+                            System.out.println("Produto alterado com sucesso!");
+                            cardapio.exibirItensComIndices();
                             break;
                         case "3":
-                            System.out.println("\nVocê escolheu 'Imprimir Pedidos'.");
+                            System.out.println("\nVocê escolheu 'Lista de Pedidos'.");
                             // Adicione a lógica para imprimir pedidos aqui
                             break;
                         case "4":

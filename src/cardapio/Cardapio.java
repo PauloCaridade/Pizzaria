@@ -34,12 +34,25 @@ public class Cardapio {
         return itens;
     }
 
+    public void adicionarItem(ItemCardapio item) {
+        itens.add(item);
+        System.out.println(item.getNome() + " foi adicionado ao cardápio com sucesso.");
+    }
+
     public void exibirCardapio() {
         System.out.println("=============== Cardápio ==============");
         for (int i = 0; i < itens.size(); i++) {
             ItemCardapio item = itens.get(i);
             String tipo = item instanceof Pizza ? "Pizza" : item instanceof Adicional ? "Adicional" : "Bebida";
             System.out.println((i + 1) + ". " + tipo + " - " + item.getNome() + " | Preço: R$ " + item.getPreco());
+        }
+        System.out.println("======================================");
+    }
+
+    public void exibirItensComIndices() {
+        System.out.println("=============== Cardápio ==============");
+        for (int i = 0; i < itens.size(); i++) {
+            System.out.println((i + 1) + ". " + itens.get(i));
         }
         System.out.println("======================================");
     }
