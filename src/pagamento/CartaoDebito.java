@@ -56,4 +56,9 @@ public class CartaoDebito extends Pagamento {
     public String statusPagamento() {
         return super.getStatus();
     }
+
+    public void exibirDadosCartaoDebito() {
+        System.out.println("\nCartão de Debito" + "\n"+ "Titular: " + this.getTitular() + "\n" + "Numero: " + this.getNumero() + "\n"
+                + "Validade: " + this.getValidade() + "\n" + "CVV: " + this.getCvv());
+    }
 }

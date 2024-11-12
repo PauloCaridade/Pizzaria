@@ -8,13 +8,13 @@ public class CartaoCredito extends Pagamento {
     private String cvv;
     private double limite;
 
-    public CartaoCredito(double valor, String titular, String numero, String validade, String cvv, double limite) {
+    public CartaoCredito(double valor, String titular, String numero, String validade, String cvv) {
         super(valor);
         this.setTitular(titular);
         this.setNumero(numero);
         this.setValidade(validade);
         this.setCvv(cvv);
-        this.setLimite(limite);
+        this.setLimite(1000);
     }
 
     public String getTitular() {
@@ -72,6 +72,12 @@ public class CartaoCredito extends Pagamento {
     @Override
     public String statusPagamento() {
         return super.getStatus();
+    }
+
+    public void exibirDadosCartaoCredito() {
+        System.out.println("\nCartão de Crédito" + "\n"+ "Titular: " + this.getTitular() + "\n" + "Numero: " + this.getNumero() + "\n"
+                + "Validade: " + this.getValidade() + "\n" + "CVV: " + this.getCvv() + "\n" + "Limite: R$"
+                + this.getLimite());
     }
 
 }
