@@ -8,14 +8,18 @@ public class Dinheiro extends Pagamento {
 
     @Override
     public void pagar() {
-        // logica do pagamento
         super.setStatus("PAGO");
+        System.out.println("Pago com dinheiro.");
     }
 
     @Override
     public void cancelarPagamento() {
-        // logica do cancelamento
         super.setStatus("CANCELADO");
+    }
+
+    @Override
+    public String getTipoPagamento() {
+        return "Dinheiro";
     }
 
     @Override

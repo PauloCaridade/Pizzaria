@@ -40,19 +40,23 @@ public class Pix extends Pagamento {
 
     @Override
     public void pagar() {
-        // logica do pagamento
         super.setStatus("PAGO");
+        System.out.println("Pago com pix.");
     }
 
     @Override
     public void cancelarPagamento() {
-        // logica do cancelamento
         super.setStatus("CANCELADO");
     }
 
     @Override
     public String statusPagamento() {
         return super.getStatus();
+    }
+
+    @Override
+    public String getTipoPagamento() {
+        return "Pix";
     }
 
     public void dadosPix() {

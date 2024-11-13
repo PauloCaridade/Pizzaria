@@ -28,5 +28,6 @@ public abstract class Pagamento {
     abstract void pagar();
     abstract void cancelarPagamento();
     abstract String statusPagamento();
+    public abstract String getTipoPagamento();
 
 }

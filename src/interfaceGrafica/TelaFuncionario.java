@@ -10,15 +10,14 @@ import java.util.ArrayList;
 public class TelaFuncionario extends JFrame {
     private JButton listaPedidosButton;
     private ArrayList<Pedido> pedidos;
+    private boolean exibirPedidosChamado = false;
 
     public TelaFuncionario(ArrayList<Pedido> pedidos) {
-
         this.pedidos = pedidos;
         setTitle("Tela Funcionário");
         setSize(300, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);  // Centraliza a janela na tela
-
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
 
         listaPedidosButton = new JButton("Exibir Lista de Pedidos");
 
@@ -27,12 +26,12 @@ public class TelaFuncionario extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 exibirPedidos();
+                exibirPedidosChamado = true;  // Marca que o botão foi pressionado
             }
         });
 
-        // Configura o layout
         setLayout(new FlowLayout());
-        add(listaPedidosButton);  // Adiciona o botão à tela
+        add(listaPedidosButton);
     }
 
     private void exibirPedidos() {
@@ -49,4 +48,7 @@ public class TelaFuncionario extends JFrame {
         }
     }
 
+    public boolean isExibirPedidosChamado() {
+        return exibirPedidosChamado;
+    }
 }
