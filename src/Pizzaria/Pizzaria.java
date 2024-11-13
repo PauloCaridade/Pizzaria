@@ -16,7 +16,6 @@ public class Pizzaria {
         ArrayList<Pessoa> pessoas = new ArrayList<>();
         Cardapio cardapio = new Cardapio();
         ArrayList<Pedido> pedidos = new ArrayList<>();
-        ArrayList<Pagamento> metodosPagamento = new ArrayList<>();
 
         Pessoa p1 = new Cliente("João Vitor",22,"111.111.111-00","Curitiba",
                 "(41) 998655302","joão@gmail.com","joãov","joão123");
@@ -48,24 +47,29 @@ public class Pizzaria {
 
         Scanner input = new Scanner(System.in);
         Pessoa usuarioLogado = null;
+        boolean sistemaAtivo = true;
 
-        System.out.println("╔══════════════════════════════════╗");
-        System.out.println("║      Tela de Login do Sistema    ║");
-        System.out.println("╚══════════════════════════════════╝");
+        while(sistemaAtivo){
+            System.out.println("╔══════════════════════════════════╗");
+            System.out.println("║      Tela de Login do Sistema    ║");
+            System.out.println("╚══════════════════════════════════╝");
 
-        while(usuarioLogado == null){
-            System.out.print("╔═ Usuário: ");
-            String usuario = input.nextLine();
+            while(usuarioLogado == null){
+                System.out.print("╔═ Usuário: ");
+                String usuario = input.nextLine();
 
-            System.out.print("╠═ Senha: ");
-            String senha = input.nextLine();
-            System.out.println("╚═════════════════════════════");
+                System.out.print("╠═ Senha: ");
+                String senha = input.nextLine();
+                System.out.println("╚═════════════════════════════");
 
-            usuarioLogado = autenticarUsuario(pessoas, usuario, senha);
+                usuarioLogado = autenticarUsuario(pessoas, usuario, senha);
 
-            if (usuarioLogado == null) {
-                System.out.println("Usuário ou senha incorretos. Tente novamente.");
-            }
+                if (usuarioLogado == null) {
+                    System.out.println("Usuário ou senha incorretos. Tente novamente.");
+                }
+        }
+
+
 
             if(usuarioLogado instanceof Administrador a){
 
@@ -113,6 +117,7 @@ public class Pizzaria {
                         case "6":
                             System.out.println("\nSaindo do sistema. Até mais!");
                             sair = true;
+                            usuarioLogado = null;
                             break;
                         default:
                             System.out.println("\n⚠️ Opção inválida. Tente novamente.");
@@ -136,7 +141,8 @@ public class Pizzaria {
                     System.out.println("║ 2. Visualizar Cardápio      ║");
                     System.out.println("║ 3. Alterar Dados            ║");
                     System.out.println("║ 4. Métodos de Pagamento     ║");
-                    System.out.println("║ 5. Sair                     ║");
+                    System.out.println("║ 5. Realizar Pagamento       ║");
+                    System.out.println("║ 6. Sair                     ║");
                     System.out.println("╚═════════════════════════════╝");
                     System.out.print("Escolha uma opção: ");
 
@@ -144,7 +150,9 @@ public class Pizzaria {
 
                     switch (escolha) {
                         case "1":
-
+                            Pedido novoPedido = criarPedido(input, c, cardapio);
+                            pedidos.add(novoPedido);
+                            System.out.println("Pedido realizado com sucesso!");
                             break;
                         case "2":
                             cardapio.exibirCardapio();
@@ -167,12 +175,12 @@ public class Pizzaria {
                             System.out.print(c);
                             break;
                         case "4":
-                            if (metodosPagamento.isEmpty()) {
+                            if (c.getMetodosPagamento().isEmpty()) {
                                 System.out.println("\nCadastrar método de pagamento:");
-                                cadastrarMetodoPagamento(input, c, metodosPagamento);
+                                cadastrarMetodoPagamento(input, c, c.getMetodosPagamento());
                             } else {
                                 System.out.println("\nMétodos de pagamento já cadastrados:");
-                                for (Pagamento m : metodosPagamento) {
+                                for (Pagamento m : c.getMetodosPagamento()) {
                                     if (m instanceof CartaoCredito cc) {
                                         cc.exibirDadosCartaoCredito();
                                     } else if (m instanceof CartaoDebito cd) {
@@ -183,14 +191,71 @@ public class Pizzaria {
                                 }
                                 System.out.print("\nDeseja cadastrar um novo método de pagamento? (S/N): ");
                                 String resposta = input.nextLine();
-                                if (resposta.toLowerCase().equals("s")) {
-                                    cadastrarMetodoPagamento(input, c, metodosPagamento);
+                                if (resposta.equalsIgnoreCase("s")) {
+                                    cadastrarMetodoPagamento(input, c, c.getMetodosPagamento());
                                 }
                             }
                             break;
                         case "5":
+                            if (pedidos.isEmpty()) {
+                                System.out.println("\nNão há pedidos pendentes para pagamento.");
+                            } else {
+                                System.out.println("\nPedidos Pendentes:");
+                                for (int i = 0; i < pedidos.size(); i++) {
+                                    System.out.printf("%d - Pedido de %s (R$ %.2f)\n", i + 1,
+                                            pedidos.get(i).getNomeCliente(), pedidos.get(i).calcularValorTotal());
+                                }
+                                System.out.print("Escolha o pedido a ser pago: ");
+                                int indicePedido = input.nextInt() - 1;
+                                input.nextLine();
+
+                                if (indicePedido >= 0 && indicePedido < pedidos.size()) {
+                                    Pedido pedidoSelecionado = pedidos.get(indicePedido);
+
+                                    if (c.getMetodosPagamento().isEmpty()) {
+                                        System.out.println("Não há métodos de pagamento cadastrados.");
+                                    } else {
+                                        System.out.println("\nMétodos de Pagamento Disponíveis:");
+                                        for (int i = 0; i < c.getMetodosPagamento().size(); i++) {
+                                            System.out.printf("%d - %s (R$ %.2f)\n", i + 1,
+                                                    c.getMetodosPagamento().get(i).getClass().getSimpleName(),
+                                                    c.getMetodosPagamento().get(i).getValor());
+                                        }
+                                        System.out.print("Escolha o método de pagamento: ");
+                                        int indiceMetodo = input.nextInt() - 1;
+                                        input.nextLine();
+
+                                        if (indiceMetodo >= 0 && indiceMetodo < c.getMetodosPagamento().size()) {
+                                            Pagamento pagamento = c.getMetodosPagamento().get(indiceMetodo);
+                                            pedidoSelecionado.setTipoPagamento(pagamento);
+                                            if(pagamento instanceof CartaoCredito cc){
+                                                cc.pagar();
+                                            }
+                                            else if(pagamento instanceof CartaoDebito cd){
+                                                cd.pagar();
+                                            }
+                                            else if(pagamento instanceof Pix pix){
+                                                pix.pagar();
+                                            }
+                                            else if (pagamento instanceof Dinheiro d) {
+                                                d.pagar();
+                                            }
+
+                                            System.out.println("Pagamento realizado com sucesso!");
+                                            pedidos.remove(indicePedido);
+                                        } else {
+                                            System.out.println("Método de pagamento inválido.");
+                                        }
+                                    }
+                                } else {
+                                    System.out.println("Pedido inválido.");
+                                }
+                            }
+                            break;
+                        case "6":
                             System.out.println("\nSaindo do sistema. Até mais!");
                             sair = true;
+                            usuarioLogado = null;
                             break;
                         default:
                             System.out.println("\n⚠️ Opção inválida. Tente novamente.");
@@ -209,7 +274,6 @@ public class Pizzaria {
                     System.out.println("╠═════════════════════════════╣");
                     System.out.println("║ 1. Cadastrar Produtos       ║");
                     System.out.println("║ 2. Lista de Pedidos         ║");
-                    System.out.println("║ 3. Imprimir Pedidos         ║");
                     System.out.println("║ 4. Sair                     ║");
                     System.out.println("╚═════════════════════════════╝");
                     System.out.print("Escolha uma opção: ");
@@ -232,6 +296,7 @@ public class Pizzaria {
                         case "4":
                             System.out.println("\nSaindo do sistema. Até mais!");
                             sair = true;
+                            usuarioLogado = null;
                             break;
                         default:
                             System.out.println("\n⚠️ Opção inválida. Tente novamente.");
@@ -255,7 +320,7 @@ public class Pizzaria {
         return null;
     }
 
-    private static Pedido criarPedido(Scanner input, Cliente c) {
+    private static Pedido criarPedido(Scanner input, Cliente c, Cardapio cardapio) {
         System.out.println("\nIniciando um novo pedido...");
         System.out.print("Escolha o tipo de entrega (Retirar ou Entregar): ");
         String tipoEntrega = input.nextLine();
@@ -264,20 +329,29 @@ public class Pizzaria {
 
         boolean adicionarMaisItens = true;
         while (adicionarMaisItens) {
-            System.out.print("Digite o nome do item: ");
-            String nomeItem = input.nextLine();
+            System.out.println("\nCardápio:");
+            cardapio.exibirCardapio();
 
-            System.out.print("Quantidade: ");
-            int quantidade = input.nextInt();
+            System.out.print("Digite o número do item que deseja adicionar: ");
+            int indiceItem = input.nextInt() - 1;
+            input.nextLine();
 
-            System.out.print("Preço unitário: R$ ");
-            double precoUnitario = input.nextDouble();
-            input.nextLine();  // Consome a quebra de linha
 
-            System.out.print("Adicionais (se houver): ");
-            String adicionais = input.nextLine();
+            ItemCardapio itemEscolhido = cardapio.getItem(indiceItem);
 
-            novoPedido.adicionarItem(nomeItem, quantidade, precoUnitario, adicionais);
+            if (itemEscolhido != null) {
+                System.out.print("Quantidade: ");
+                int quantidade = input.nextInt();
+                input.nextLine();
+
+                System.out.print("Adicionais (se houver): ");
+                String adicionais = input.nextLine();
+
+                novoPedido.adicionarItem(itemEscolhido.getNome(), quantidade, itemEscolhido.getPreco(), adicionais);
+                System.out.println("Item adicionado: " + itemEscolhido.getNome());
+            } else {
+                System.out.println("Item inválido. Tente novamente.");
+            }
 
             System.out.print("Deseja adicionar mais itens? (S/N): ");
             String resposta = input.nextLine();
@@ -381,9 +455,5 @@ public class Pizzaria {
         }
         System.out.println("Método de pagamento cadastrado com sucesso!");
     }
-
-
-
-
 
 }

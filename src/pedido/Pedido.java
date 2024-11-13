@@ -41,7 +41,6 @@ public class Pedido {
         this.quantidades.add(quantidade);
         this.precosUnitarios.add(precoUnitario);
         this.adicionais.add(adicionais);
-        this.valorTotal += calcularPrecoTotalItem(quantidade, precoUnitario);
     }
 
 
