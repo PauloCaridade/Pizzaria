@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cardapio {
+
     private List<ItemCardapio> itens;
 
     public Cardapio() {
@@ -18,6 +19,7 @@ public class Cardapio {
     }
 
     private void inicializarCardapio() {
+
         itens.add(new Pizza("Margherita", 25.0));
         itens.add(new Pizza("Calabresa", 30.0));
         itens.add(new Pizza("Quatro Queijos", 35.0));
@@ -42,6 +44,14 @@ public class Cardapio {
             System.out.println((i + 1) + ". " + tipo + " - " + item.getNome() + " | Preço: R$ " + item.getPreco());
         }
         System.out.println("======================================");
+    }
+
+    public ItemCardapio getItem(int index) {
+        if (index >= 0 && index < itens.size()) {
+            return itens.get(index);
+        } else {
+            throw new IndexOutOfBoundsException("Índice fora do intervalo do cardápio.");
+        }
     }
 
     // Metodo para importar itens de um arquivo .txt

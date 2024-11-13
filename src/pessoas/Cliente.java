@@ -1,16 +1,19 @@
 package pessoas;
 import pagamento.*;
 
+import java.util.ArrayList;
+
 public class Cliente extends Pessoa implements  AutenticarLogin {
 
     private String login;
     private String senha;
-    private Pagamento metodoPagamento;
+    private ArrayList<Pagamento> metodosPagamento;
 
     public Cliente (String nome, int idade, String cpf, String endereco, String telefone, String email, String login, String senha){
         super(nome, idade, cpf, endereco, telefone, email);
         this.setLogin(login);
         this.setSenha(senha);
+        this.metodosPagamento = new ArrayList<>();
     }
 
     public String getLogin() {
@@ -26,8 +29,13 @@ public class Cliente extends Pessoa implements  AutenticarLogin {
         this.senha = senha;
     }
 
-    public void setMetodoPagamento(Pagamento metodoPagamento) {
-        this.metodoPagamento = metodoPagamento;
+
+    public void adicionarMetodoPagamento(Pagamento metodoPagamento) {
+        this.metodosPagamento.add(metodoPagamento);
+    }
+
+    public ArrayList<Pagamento> getMetodosPagamento() {
+        return metodosPagamento;
     }
 
     @Override
