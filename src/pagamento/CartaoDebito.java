@@ -42,19 +42,23 @@ public class CartaoDebito extends Pagamento {
 
     @Override
     public void pagar() {
-        // logica do pagamento
         super.setStatus("PAGO");
+        System.out.println("Pago com cartão de debito.");
     }
 
     @Override
     public void cancelarPagamento() {
-        // logica do cancelamento
         super.setStatus("CANCELADO");
     }
 
     @Override
     public String statusPagamento() {
         return super.getStatus();
+    }
+
+    @Override
+    public String getTipoPagamento() {
+        return "Cartão de Debito";
     }
 
     public void exibirDadosCartaoDebito() {
