@@ -6,15 +6,13 @@ Este projeto é um sistema de pedidos para uma pizzaria, desenvolvido em Java. E
 ## Funcionalidades
 
 ### Para Clientes:
-- Login e registro de novos clientes.
+- Login e registro.
 - Visualização do menu de pizzas e alimentos disponíveis.
 - Finalização de pedidos.
-- Acompanhamento do status do pedido.
 
 ### Para Funcionários:
 - Login exclusivo para funcionários.
-- Gerenciamento de pedidos: visualização de pedidos pendentes, em andamento e concluídos.
-- Controle de estoque.
+- Gerenciamento de pedidos: visualização de pedidos dos clientes.
 
 ## Tecnologias Utilizadas
 - **Linguagem**: Java
