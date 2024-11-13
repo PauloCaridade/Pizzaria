@@ -31,7 +31,7 @@ public class Pizzaria {
                 "(41) 91234-5678", "maria.oliveira@email.com", "marimari", "oliveira123");
 
 
-        Pessoa f = new Funcionario("Henrique Ancelotti",30,"333.333.333-00","Rua do Batel, 123",
+        Pessoa fun = new Funcionario("Henrique Ancelotti",30,"333.333.333-00","Rua do Batel, 123",
                 "(41) 98765-4321","henr@gmail.com","pizzaiolo",2500,"ancel","h123");
 
 
@@ -41,7 +41,7 @@ public class Pizzaria {
         pessoas.add(c1);
         pessoas.add(c2);
         pessoas.add(c3);
-        pessoas.add(f);
+        pessoas.add(fun);
         pessoas.add(adm);
 
 
@@ -92,13 +92,49 @@ public class Pizzaria {
 
                     switch (escolha) {
                         case "1":
-                            // Código para adicionar funcionário
+                            System.out.print("Nome: ");
+                            String nomeFuncionario = input.nextLine();
+                            System.out.print("Idade: ");
+                            int idadeFuncionario = input.nextInt();
+                            input.nextLine();
+                            System.out.print("CPF: ");
+                            String cpfFuncionario = input.nextLine();
+                            System.out.print("Endereço: ");
+                            String enderecoFuncionario = input.nextLine();
+                            System.out.print("Telefone: ");
+                            String telefoneFuncionario = input.nextLine();
+                            System.out.print("E-mail: ");
+                            String emailFuncionario = input.nextLine();
+                            System.out.print("Cargo: ");
+                            String cargoFuncionario = input.nextLine();
+                            System.out.print("Salário: ");
+                            double salarioFuncionario = input.nextDouble();
+                            input.nextLine();
+                            System.out.print("Login: ");
+                            String loginFuncionario = input.nextLine();
+                            System.out.print("Senha: ");
+                            String senhaFuncionario = input.nextLine();
+                            Funcionario novoFuncionario = new Funcionario(nomeFuncionario,idadeFuncionario,
+                                    cpfFuncionario,enderecoFuncionario,telefoneFuncionario,emailFuncionario,
+                                    cargoFuncionario,salarioFuncionario,loginFuncionario,senhaFuncionario);
+                            pessoas.add(novoFuncionario);
                             break;
                         case "2":
-                            // Código para excluir funcionário
+                            a.listarFuncionarios(pessoas);
+                            System.out.print("Selecione o funcionário (nome) para exclusão: ");
+                            String funcionarioVerificado = input.nextLine();
+                            Pessoa funcinarioSelecionado = null;
+                            for(Pessoa pessoa : pessoas){
+                                if(pessoa instanceof Funcionario f && !(pessoa instanceof Administrador) && !(pessoa instanceof Cliente)){
+                                    if(funcionarioVerificado.toLowerCase().equals(pessoa.getNome().toLowerCase())){
+                                        funcinarioSelecionado = pessoa;
+                                    }
+                                }
+                            }
+                            a.excluirFuncionario(funcinarioSelecionado,pessoas);
                             break;
                         case "3":
-                            // Código para listar funcionários
+                            a.listarFuncionarios(pessoas);
                             break;
                         case "4":
                             System.out.print("Digite o caminho do arquivo para importação: ");
