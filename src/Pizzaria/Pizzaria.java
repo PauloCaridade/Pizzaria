@@ -417,7 +417,19 @@ public class Pizzaria {
                             break;
                         case "3":
                             System.out.println("\nVocê escolheu 'Lista de Pedidos'.");
-                            // Adicione a lógica para imprimir pedidos aqui
+
+                            // Verifica se há pedidos na lista
+                            if (pedidos.isEmpty()) {
+                                System.out.println("Não há pedidos no momento.");
+                            } else {
+                                System.out.println("============= Lista de Pedidos =============");
+                                // Exibe os detalhes de cada pedido
+                                for (int i = 0; i < pedidos.size(); i++) {
+                                    System.out.println("Pedido " + (i + 1) + ":");
+                                    pedidos.get(i).exibirDetalhesPedido();
+                                    System.out.println("============================================");
+                                }
+                            }
                             break;
                         case "4":
                             System.out.println("\nSaindo do sistema. Até mais!");
