@@ -1,5 +1,6 @@
 package Pizzaria;
 
+import interfaceGrafica.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -417,18 +418,11 @@ public class Pizzaria {
                             break;
                         case "3":
                             System.out.println("\nVocê escolheu 'Lista de Pedidos'.");
-
-                            // Verifica se há pedidos na lista
                             if (pedidos.isEmpty()) {
                                 System.out.println("Não há pedidos no momento.");
                             } else {
-                                System.out.println("============= Lista de Pedidos =============");
-                                // Exibe os detalhes de cada pedido
-                                for (int i = 0; i < pedidos.size(); i++) {
-                                    System.out.println("Pedido " + (i + 1) + ":");
-                                    pedidos.get(i).exibirDetalhesPedido();
-                                    System.out.println("============================================");
-                                }
+                                TelaFuncionario telaFuncionario = new TelaFuncionario(pedidos);
+                                telaFuncionario.setVisible(true);
                             }
                             break;
                         case "4":
